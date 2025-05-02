@@ -23,6 +23,18 @@ const Footer = () => {
               © 2025 Waqar.dev — Built with intelligence
             </p>
           </div>
+          
+          <div className="flex items-center space-x-6 mb-4 md:mb-0">
+            <a href="https://github.com/itsWaqar963" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
+              <i className="fab fa-github text-xl"></i>
+            </a>
+            <a href="https://www.linkedin.com/in/waqar963" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
+              <i className="fab fa-linkedin text-xl"></i>
+            </a>
+            <a href="mailto:waqar.ah963@gmail.com" className="text-muted-foreground hover:text-primary transition-colors">
+              <i className="fas fa-envelope text-xl"></i>
+            </a>
+          </div>
 
           <div className="flex items-center space-x-4">
             <button

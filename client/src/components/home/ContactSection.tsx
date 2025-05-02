@@ -183,19 +183,19 @@ const ContactSection = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.4 }}
           >
-            <a href="mailto:hello@waqar.dev" className="flex items-center text-muted-foreground hover:text-primary transition-colors">
+            <a href="mailto:waqar.ah963@gmail.com" className="flex items-center text-muted-foreground hover:text-primary transition-colors">
               <i className="far fa-envelope text-xl mr-2"></i>
-              <span>hello@waqar.dev</span>
+              <span>waqar.ah963@gmail.com</span>
             </a>
             
-            <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="flex items-center text-muted-foreground hover:text-primary transition-colors">
+            <a href="https://github.com/itsWaqar963" target="_blank" rel="noopener noreferrer" className="flex items-center text-muted-foreground hover:text-primary transition-colors">
               <i className="fab fa-github text-xl mr-2"></i>
-              <span>github.com/waqar</span>
+              <span>github.com/itsWaqar963</span>
             </a>
             
-            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="flex items-center text-muted-foreground hover:text-primary transition-colors">
+            <a href="https://www.linkedin.com/in/waqar963" target="_blank" rel="noopener noreferrer" className="flex items-center text-muted-foreground hover:text-primary transition-colors">
               <i className="fab fa-linkedin text-xl mr-2"></i>
-              <span>linkedin.com/in/waqar</span>
+              <span>linkedin.com/in/waqar963</span>
             </a>
           </motion.div>
         </div>
