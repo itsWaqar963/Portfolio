@@ -21,9 +21,11 @@ const ParticleCanvas = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const { theme } = useTheme();
   const [mousePosition, setMousePosition] = useState<MousePosition>({ x: null, y: null });
-  const mouseRadius = 150; // Mouse influence radius
+  // Adjust mouseRadius based on screen size - larger for mobile to accommodate touch
+  const mouseRadius = window.innerWidth < 768 ? 200 : 150; 
   const prevMousePositionsRef = useRef<{x: number, y: number}[]>([]);
-  const maxTrailLength = 5; // Maximum number of positions to remember for trail effect
+  // Shorter trail for mobile
+  const maxTrailLength = window.innerWidth < 768 ? 3 : 5;
   
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -43,7 +45,10 @@ const ParticleCanvas = () => {
     
     const initParticles = () => {
       particles = [];
-      const particleCount = Math.min(Math.floor(window.innerWidth / 10), 150);
+      // Adjust particle count for mobile devices
+      const isMobile = window.innerWidth < 768;
+      const baseCount = isMobile ? 50 : 150;
+      const particleCount = Math.min(Math.floor(window.innerWidth / (isMobile ? 20 : 10)), baseCount);
       
       for (let i = 0; i < particleCount; i++) {
         const x = Math.random() * canvas.width;
@@ -210,9 +215,57 @@ const ParticleCanvas = () => {
       animationFrameId = requestAnimationFrame(drawParticles);
     };
     
+    // Handle touch events for mobile devices
+    const handleTouchStart = (event: TouchEvent) => {
+      if (event.touches.length > 0) {
+        const rect = canvas.getBoundingClientRect();
+        const x = event.touches[0].clientX - rect.left;
+        const y = event.touches[0].clientY - rect.top;
+        
+        // Update mouse position
+        setMousePosition({ x, y });
+        
+        // Initialize trail with first touch position
+        prevMousePositionsRef.current = [{x, y}];
+      }
+    };
+    
+    const handleTouchMove = (event: TouchEvent) => {
+      if (event.touches.length > 0) {
+        const rect = canvas.getBoundingClientRect();
+        const x = event.touches[0].clientX - rect.left;
+        const y = event.touches[0].clientY - rect.top;
+        
+        // Update mouse position
+        setMousePosition({ x, y });
+        
+        // Add current position to trail history
+        if (x && y) {
+          const newPositions = [...prevMousePositionsRef.current, {x, y}];
+          if (newPositions.length > maxTrailLength) {
+            newPositions.shift();
+          }
+          prevMousePositionsRef.current = newPositions;
+        }
+        
+        // Prevent default to avoid scrolling while interacting with canvas
+        event.preventDefault();
+      }
+    };
+    
+    const handleTouchEnd = () => {
+      // Clear the mouse position after a short delay to allow for particles to return
+      setTimeout(() => {
+        setMousePosition({ x: null, y: null });
+        prevMousePositionsRef.current = [];
+      }, 50);
+    };
+    
     // Initialize and start animation
     window.addEventListener("resize", resizeCanvas);
     window.addEventListener("mousemove", handleMouseMove);
+    canvas.addEventListener("touchmove", handleTouchMove);
+    canvas.addEventListener("touchend", handleTouchEnd);
     resizeCanvas();
     drawParticles();
     
@@ -220,6 +273,8 @@ const ParticleCanvas = () => {
     return () => {
       window.removeEventListener("resize", resizeCanvas);
       window.removeEventListener("mousemove", handleMouseMove);
+      canvas.removeEventListener("touchmove", handleTouchMove);
+      canvas.removeEventListener("touchend", handleTouchEnd);
       cancelAnimationFrame(animationFrameId);
     };
   }, [theme, mousePosition]);

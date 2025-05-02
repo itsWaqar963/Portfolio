@@ -46,9 +46,11 @@ const HeroSection = () => {
               <h1 className="font-heading text-3xl md:text-5xl lg:text-6xl font-bold mb-4 leading-tight">
                 Hi, I'm <span className="gradient-text">Waqar</span> — a smart backend dev with a vision.
               </h1>
-              <h2 className="md:text-xl lg:text-2xl text-muted-foreground font-medium mt-4 typing-effect overflow-hidden whitespace-normal">
-                Building intelligent systems using Java, Spring Boot & AI with Odoo.
-              </h2>
+              <div className="relative overflow-hidden md:w-full">
+                <h2 className="md:text-xl lg:text-2xl text-muted-foreground font-medium mt-4 typing-effect">
+                  Building intelligent systems using Java, Spring Boot & AI with Odoo.
+                </h2>
+              </div>
             </div>
             
             <motion.div 

@@ -107,14 +107,29 @@
   .typing-effect {
     overflow: hidden;
     @apply border-r-4 border-primary;
-    white-space: nowrap;
+    white-space: normal; /* Allow wrapping on mobile */
     margin: 0 auto;
-    animation: typing 3.5s steps(40, end), blink-caret .75s step-end infinite;
+    animation: blink-caret .75s step-end infinite;
+    /* Enable actual typing animation on mobile but at a different size */
+    width: 100%; /* Start fully visible on mobile */
+    display: inline-block; /* Contain the text */
+    word-break: break-word; /* Allow breaking at any point if needed */
+    max-width: 100%; /* Ensure text doesn't overflow container */
   }
   
-  @keyframes typing {
-    from { width: 0 }
-    to { width: 100% }
+  @media (min-width: 768px) {
+    /* For tablets and up, use the typing animation */
+    .typing-effect {
+      white-space: nowrap; /* No wrapping on larger screens */
+      display: inline-block;
+      width: 0; /* Start with 0 width */
+      animation: typing 3.5s steps(40, end) forwards, blink-caret .75s step-end infinite;
+    }
+    
+    @keyframes typing {
+      from { width: 0 }
+      to { width: 100% }
+    }
   }
   
   @keyframes blink-caret {
