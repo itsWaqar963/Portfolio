@@ -143,6 +143,14 @@
   }
   
   .canvas-bg {
-    @apply fixed top-0 left-0 w-full h-full -z-10;
+    @apply fixed top-0 left-0 w-full h-full -z-10 pointer-events-auto;
+    pointer-events: auto; /* Ensure mousemove events are captured */
+    backdrop-filter: blur(0px); /* Optional: subtle blur effect */
+    transition: backdrop-filter 0.3s ease;
+  }
+  
+  /* Add subtle glow when cursor is near */
+  .canvas-bg:hover {
+    cursor: none; /* Hide cursor for a more immersive experience */
   }
 }
