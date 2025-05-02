@@ -168,4 +168,18 @@
   .canvas-bg:hover {
     cursor: none; /* Hide cursor for a more immersive experience */
   }
+  
+  /* Image lazy loading fade in animation */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  img[loading="lazy"] {
+    transition: opacity 0.5s ease-in-out;
+  }
 }

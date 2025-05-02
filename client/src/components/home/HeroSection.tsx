@@ -112,11 +112,25 @@ const HeroSection = () => {
                 <circle cx="50" cy="50" r="48" fill="url(#circleGradient)" />
               </svg>
               
-              <img 
-                src="/assets/profile.jpg" 
-                alt="Waqar Ahmed portrait" 
-                className="w-full h-full object-cover rounded-full" 
-              />
+              <div className="relative w-full h-full">
+                {/* Loading placeholder/skeleton */}
+                <div className="absolute inset-0 rounded-full bg-card animate-pulse"></div>
+                <img 
+                  src="/assets/profile.jpg" 
+                  alt="Waqar Ahmed portrait" 
+                  className="w-full h-full object-cover rounded-full relative z-10" 
+                  loading="lazy"
+                  onLoad={(e) => {
+                    // Add a fade-in effect when image loads
+                    const img = e.target as HTMLImageElement;
+                    img.style.animation = "fadeIn 0.5s forwards";
+                    img.style.opacity = "1";
+                  }}
+                  style={{
+                    opacity: 0,
+                  }}
+                />
+              </div>
               
               <div className="absolute inset-0 rounded-full bg-gradient-to-b from-primary/0 via-background/0 to-background/70"></div>
               
