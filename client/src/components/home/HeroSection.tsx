@@ -1,8 +1,12 @@
 import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
+import { trackEvent } from "@/lib/analytics";
 
 const HeroSection = () => {
   const scrollToProjects = () => {
+    // Track navigation event
+    trackEvent('navigation', 'projects_button', 'Clicked Projects Button');
+    
     const projectsSection = document.getElementById("projects");
     if (projectsSection) {
       window.scrollTo({
@@ -13,6 +17,9 @@ const HeroSection = () => {
   };
 
   const scrollToContact = () => {
+    // Track navigation event
+    trackEvent('navigation', 'contact_button', 'Clicked Contact Button');
+    
     const contactSection = document.getElementById("contact");
     if (contactSection) {
       window.scrollTo({
@@ -23,6 +30,9 @@ const HeroSection = () => {
   };
 
   const scrollToAbout = () => {
+    // Track navigation event
+    trackEvent('navigation', 'about_button', 'Clicked About Button');
+    
     const aboutSection = document.getElementById("about");
     if (aboutSection) {
       window.scrollTo({
@@ -79,13 +89,31 @@ const HeroSection = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.6 }}
             >
-              <a href="https://github.com/itsWaqar963" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-secondary transition-colors">
+              <a 
+                href="https://github.com/itsWaqar963" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="text-muted-foreground hover:text-secondary transition-colors"
+                onClick={() => trackEvent('social', 'github', 'GitHub Profile Link')}
+              >
                 <i className="fab fa-github text-2xl"></i>
               </a>
-              <a href="https://www.linkedin.com/in/waqar963" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-secondary transition-colors">
+              <a 
+                href="https://www.linkedin.com/in/waqar963" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="text-muted-foreground hover:text-secondary transition-colors"
+                onClick={() => trackEvent('social', 'linkedin', 'LinkedIn Profile Link')}
+              >
                 <i className="fab fa-linkedin text-2xl"></i>
               </a>
-              <a href="mailto:waqar.ah963@gmail.com" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-secondary transition-colors">
+              <a 
+                href="mailto:waqar.ah963@gmail.com" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="text-muted-foreground hover:text-secondary transition-colors"
+                onClick={() => trackEvent('social', 'email', 'Email Contact Link')}
+              >
                 <i className="fas fa-envelope text-2xl"></i>
               </a>
             </motion.div>
