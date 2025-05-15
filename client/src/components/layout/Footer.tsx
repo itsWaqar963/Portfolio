@@ -1,13 +1,21 @@
 import { useTheme } from "@/hooks/use-theme";
+import { trackEvent } from "@/lib/analytics";
 
 const Footer = () => {
   const { theme, setTheme } = useTheme();
 
   const toggleTheme = () => {
-    setTheme(theme === "dark" ? "light" : "dark");
+    const newTheme = theme === "dark" ? "light" : "dark";
+    setTheme(newTheme);
+    
+    // Track theme change
+    trackEvent('preference', 'theme', `Changed theme to ${newTheme}`);
   };
 
   const scrollToTop = () => {
+    // Track scroll to top action
+    trackEvent('navigation', 'scroll_top', 'Scrolled to top of page');
+    
     window.scrollTo({
       top: 0,
       behavior: "smooth",
@@ -25,13 +33,29 @@ const Footer = () => {
           </div>
           
           <div className="flex items-center space-x-6 mb-4 md:mb-0">
-            <a href="https://github.com/itsWaqar963" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
+            <a 
+              href="https://github.com/itsWaqar963" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="text-muted-foreground hover:text-primary transition-colors"
+              onClick={() => trackEvent('social', 'github_footer', 'GitHub Link in Footer')}
+            >
               <i className="fab fa-github text-xl"></i>
             </a>
-            <a href="https://www.linkedin.com/in/waqar963" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
+            <a 
+              href="https://www.linkedin.com/in/waqar963" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="text-muted-foreground hover:text-primary transition-colors"
+              onClick={() => trackEvent('social', 'linkedin_footer', 'LinkedIn Link in Footer')}
+            >
               <i className="fab fa-linkedin text-xl"></i>
             </a>
-            <a href="mailto:waqar.ah963@gmail.com" className="text-muted-foreground hover:text-primary transition-colors">
+            <a 
+              href="mailto:waqar.ah963@gmail.com" 
+              className="text-muted-foreground hover:text-primary transition-colors"
+              onClick={() => trackEvent('social', 'email_footer', 'Email Link in Footer')}
+            >
               <i className="fas fa-envelope text-xl"></i>
             </a>
           </div>

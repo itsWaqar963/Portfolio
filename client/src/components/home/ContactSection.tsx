@@ -39,6 +39,10 @@ const ContactSection = () => {
     
     try {
       await apiRequest("POST", "/api/contact", data);
+      
+      // Track successful form submission
+      trackEvent('form_submission', 'contact', 'Contact Form Submission', 1);
+      
       form.reset();
       toast({
         title: "Message Sent!",
@@ -46,6 +50,9 @@ const ContactSection = () => {
         variant: "default"
       });
     } catch (error) {
+      // Track form submission error
+      trackEvent('form_error', 'contact', 'Contact Form Error');
+      
       toast({
         title: "Something went wrong",
         description: "Your message couldn't be sent. Please try again later.",
