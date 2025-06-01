@@ -89,8 +89,7 @@ const BlogSection = () => {
                     month: 'long',
                     day: 'numeric'
                   }),
-                  url: article.link,
-                  thumbnail: article.thumbnail
+                  url: article.link
                 }} />
               </motion.div>
             ))}
