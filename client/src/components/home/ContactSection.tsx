@@ -205,6 +205,11 @@ const ContactSection = () => {
               <i className="fab fa-linkedin text-xl mr-2"></i>
               <span>linkedin.com/in/waqar963</span>
             </a>
+            
+            <a href="https://medium.com/@waqar.ah963" target="_blank" rel="noopener noreferrer" className="flex items-center text-muted-foreground hover:text-primary transition-colors">
+              <i className="fab fa-medium text-xl mr-2"></i>
+              <span>medium.com/@waqar.ah963</span>
+            </a>
           </motion.div>
         </div>
       </div>

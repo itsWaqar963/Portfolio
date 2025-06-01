@@ -58,6 +58,15 @@ const Footer = () => {
             >
               <i className="fas fa-envelope text-xl"></i>
             </a>
+            <a 
+              href="https://medium.com/@waqar.ah963" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="text-muted-foreground hover:text-primary transition-colors"
+              onClick={() => trackEvent('social', 'medium_footer', 'Medium Link in Footer')}
+            >
+              <i className="fab fa-medium text-xl"></i>
+            </a>
           </div>
 
           <div className="flex items-center space-x-4">

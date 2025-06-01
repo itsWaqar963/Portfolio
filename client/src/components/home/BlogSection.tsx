@@ -1,22 +1,17 @@
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import BlogCard from "@/components/shared/BlogCard";
-
-const blogPosts = [
-  {
-    title: "Integrating GPT-4 with Java Spring Applications",
-    description: "Exploring best practices for incorporating large language models into enterprise Java applications.",
-    date: "May 15, 2023",
-    url: "#"
-  },
-  {
-    title: "Building Smart Backends: Beyond CRUD Operations",
-    description: "How intelligence and automation can transform traditional backend services into smart, adaptive systems.",
-    date: "March 28, 2023",
-    url: "#"
-  }
-];
+import { fetchMediumArticles, MediumArticle } from "@/lib/mediumAPI";
+import { trackEvent } from "@/lib/analytics";
 
 const BlogSection = () => {
+  const { data: articles, isLoading, error } = useQuery({
+    queryKey: ['medium-articles'],
+    queryFn: fetchMediumArticles,
+    staleTime: 1000 * 60 * 30, // 30 minutes
+    retry: 2
+  });
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -53,19 +48,53 @@ const BlogSection = () => {
           </p>
         </motion.div>
         
-        <motion.div 
-          className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.1 }}
-        >
-          {blogPosts.map((post, index) => (
-            <motion.div key={index} variants={itemVariants}>
-              <BlogCard post={post} />
-            </motion.div>
-          ))}
-        </motion.div>
+        {isLoading ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            {[1, 2, 3, 4].map((i) => (
+              <div key={i} className="bg-card rounded-lg p-6 animate-pulse">
+                <div className="h-4 bg-muted rounded w-3/4 mb-2"></div>
+                <div className="h-3 bg-muted rounded w-full mb-2"></div>
+                <div className="h-3 bg-muted rounded w-2/3"></div>
+              </div>
+            ))}
+          </div>
+        ) : error ? (
+          <div className="text-center text-muted-foreground">
+            <p>Unable to load articles at this time.</p>
+            <a 
+              href="https://medium.com/@waqar.ah963" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="inline-flex items-center mt-4 py-2 px-4 border border-secondary text-secondary hover:bg-secondary/10 rounded-lg transition-all font-medium"
+              onClick={() => trackEvent('social', 'medium_fallback', 'Medium Profile from Articles Error')}
+            >
+              Visit My Medium Profile <i className="fas fa-external-link-alt ml-2 text-sm"></i>
+            </a>
+          </div>
+        ) : (
+          <motion.div 
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto"
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.1 }}
+          >
+            {articles?.map((article, index) => (
+              <motion.div key={article.link} variants={itemVariants}>
+                <BlogCard post={{
+                  title: article.title,
+                  description: article.description,
+                  date: new Date(article.pubDate).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                  }),
+                  url: article.link
+                }} />
+              </motion.div>
+            ))}
+          </motion.div>
+        )}
         
         <motion.div 
           className="mt-12 text-center"
@@ -75,10 +104,13 @@ const BlogSection = () => {
           transition={{ duration: 0.5, delay: 0.4 }}
         >
           <a 
-            href="#" 
+            href="https://medium.com/@waqar.ah963" 
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-flex items-center py-2 px-4 border border-secondary text-secondary hover:bg-secondary/10 rounded-lg transition-all font-medium"
+            onClick={() => trackEvent('social', 'medium_all_articles', 'View All Articles on Medium')}
           >
-            All Articles <i className="fas fa-external-link-alt ml-2 text-sm"></i>
+            Read More on Medium <i className="fas fa-external-link-alt ml-2 text-sm"></i>
           </a>
         </motion.div>
       </div>

@@ -116,6 +116,15 @@ const HeroSection = () => {
               >
                 <i className="fas fa-envelope text-2xl"></i>
               </a>
+              <a 
+                href="https://medium.com/@waqar.ah963" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="text-muted-foreground hover:text-secondary transition-colors"
+                onClick={() => trackEvent('social', 'medium', 'Medium Profile Link')}
+              >
+                <i className="fab fa-medium text-2xl"></i>
+              </a>
             </motion.div>
           </motion.div>
           
