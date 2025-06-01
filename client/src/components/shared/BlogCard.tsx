@@ -7,11 +7,12 @@ interface BlogCardProps {
     description: string;
     date: string;
     url: string;
+    thumbnail?: string;
   };
 }
 
 const BlogCard = ({ post }: BlogCardProps) => {
-  const { title, description, date, url } = post;
+  const { title, description, date, url, thumbnail } = post;
   
   const handleArticleClick = () => {
     trackEvent('article_click', 'medium', title);
@@ -22,10 +23,25 @@ const BlogCard = ({ post }: BlogCardProps) => {
       className="bg-card rounded-xl overflow-hidden hover:glow-purple transition-all duration-300 h-full"
       whileHover={{ y: -5 }}
     >
+      {thumbnail && (
+        <div className="relative h-48 overflow-hidden">
+          <img 
+            src={thumbnail} 
+            alt={title}
+            className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+            loading="lazy"
+            onError={(e) => {
+              // Hide image if it fails to load
+              (e.target as HTMLElement).style.display = 'none';
+            }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+        </div>
+      )}
       <div className="p-6">
         <div className="text-muted-foreground text-sm mb-2">{date}</div>
-        <h3 className="font-heading font-bold text-xl mb-3">{title}</h3>
-        <p className="text-muted-foreground mb-4">{description}</p>
+        <h3 className="font-heading font-bold text-xl mb-3 line-clamp-2">{title}</h3>
+        <p className="text-muted-foreground mb-4 line-clamp-3">{description}</p>
         <a 
           href={url} 
           target="_blank"
