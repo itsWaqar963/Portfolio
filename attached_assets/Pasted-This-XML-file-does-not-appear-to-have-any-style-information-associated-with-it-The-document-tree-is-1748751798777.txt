@@ -1,0 +1,234 @@
+This XML file does not appear to have any style information associated with it. The document tree is shown below.
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:cc="http://cyber.law.harvard.edu/rss/creativeCommonsRssModule.html" version="2.0">
+<channel>
+<title>
+<![CDATA[ Stories by Waqar Ahmed on Medium ]]>
+</title>
+<description>
+<![CDATA[ Stories by Waqar Ahmed on Medium ]]>
+</description>
+<link>https://medium.com/@waqar.ah963?source=rss-5a7091aecd4c------2</link>
+<image>
+<url>https://cdn-images-1.medium.com/fit/c/150/150/0*r_AG811lOriA9lll</url>
+<title>Stories by Waqar Ahmed on Medium</title>
+<link>https://medium.com/@waqar.ah963?source=rss-5a7091aecd4c------2</link>
+</image>
+<generator>Medium</generator>
+<lastBuildDate>Sun, 01 Jun 2025 04:13:59 GMT</lastBuildDate>
+<atom:link href="https://medium.com/@waqar.ah963/feed" rel="self" type="application/rss+xml"/>
+<webMaster>
+<![CDATA[ yourfriends@medium.com ]]>
+</webMaster>
+<atom:link href="http://medium.superfeedr.com" rel="hub"/>
+<item>
+<title>
+<![CDATA[ Here’s a Medium-style post tailored for Java beginners who are just stepping into professional… ]]>
+</title>
+<link>https://medium.com/@waqar.ah963/heres-a-medium-style-post-tailored-for-java-beginners-who-are-just-stepping-into-professional-6389797da16e?source=rss-5a7091aecd4c------2</link>
+<guid isPermaLink="false">https://medium.com/p/6389797da16e</guid>
+<category>
+<![CDATA[ software-development ]]>
+</category>
+<category>
+<![CDATA[ programming ]]>
+</category>
+<category>
+<![CDATA[ linkedin ]]>
+</category>
+<category>
+<![CDATA[ logging ]]>
+</category>
+<category>
+<![CDATA[ java ]]>
+</category>
+<dc:creator>
+<![CDATA[ Waqar Ahmed ]]>
+</dc:creator>
+<pubDate>Sun, 01 Jun 2025 04:03:12 GMT</pubDate>
+<atom:updated>2025-06-01T04:06:22.086Z</atom:updated>
+<content:encoded>
+<![CDATA[ <h3><strong>A post</strong> tailored for Java beginners who are just stepping into professional logging concepts:</h3><figure><img alt="" src="https://cdn-images-1.medium.com/max/1024/1*0Vdp9mw20ra7mUd5FhJvBw.png" /></figure><h3>🔍 Logging in Java — Beyond System.out.println()</h3><p>If you’re learning Java and mostly using System.out.println() to debug, it&#39;s time to take a step toward more professional and scalable coding — <strong>by learning about Java’s built-in </strong><strong>Logger</strong>.</p><h3>💡 What is a Logger?</h3><p>A Logger is a utility that helps you <strong>track what&#39;s happening inside your program</strong>. You can use it to log messages like:</p><ul><li>Informational updates (INFO)</li><li>Debug messages (FINE, FINER)</li><li>Warnings (WARNING)</li><li>Errors (SEVERE)</li></ul><p>These messages can go to the <strong>console</strong>, a <strong>log file</strong>, or even a <strong>remote monitoring system</strong> — depending on how you configure it.</p><h3>👨‍💻 Why Not Just Use System.out.println()?</h3><p>Most beginners use System.out.println() for debugging — and that’s okay at first. But as your project grows, you’ll need:</p><figure><img alt="" src="https://cdn-images-1.medium.com/max/802/1*VNAmzZfP7HAdZdnK_WE1SA.png" /></figure><h3>✅ Basic Logger Example</h3><p>Let’s say you’re writing a utility class called DatabaseUtils. Here’s how you use a Logger in it:</p><pre>import java.util.logging.Logger;<br><br>public class DatabaseUtils {<br> private static final Logger logger = Logger.getLogger(DatabaseUtils.class.getName());<br> public static void connect() {<br> logger.info(&quot;Attempting to connect to the database...&quot;);<br> // some code<br> logger.severe(&quot;Connection failed due to timeout.&quot;);<br> }<br>}</pre><p>You can now run your application and see nicely formatted logs instead of just plain print statements.</p><h3>🧠 But What Does This Line Do?</h3><pre>private static final Logger logger = Logger.getLogger(DatabaseUtils.class.getName());</pre><ul><li>private: only accessible within the class.</li><li>static: shared by all instances of the class.</li><li>final: cannot be reassigned once initialized.</li><li>Logger.getLogger(...): retrieves a logger instance tied to the class name.</li></ul><p>This way, every log message is tagged with the class name it came from — helpful when debugging complex systems.</p><h3>🛠 Logging Levels You Should Know</h3><figure><img alt="" src="https://cdn-images-1.medium.com/max/817/1*mT87Wj7RT01gQaaQRwy77A.png" /></figure><p>You can filter logs based on levels in production vs development.</p><h3>🚀 Final Thoughts</h3><p>Learning how to use Logger is a sign you&#39;re moving from &quot;just making it work&quot; to <strong>&quot;writing code that’s maintainable and scalable.&quot;</strong> Whether you&#39;re building a school project or a commercial app, <strong>structured logging will help you debug faster and build more confidence.</strong></p><p>📌 <strong>Tip:</strong> Stick to Logger for serious development — leave System.out.println() for quick testing only.</p><img src="https://medium.com/_/stat?event=post.clientViewed&referrerSource=full_rss&postId=6389797da16e" width="1" height="1" alt=""> ]]>
+</content:encoded>
+</item>
+<item>
+<title>
+<![CDATA[ JDBC CRUD Operations in Java Using DriverManager & DataSource (HikariCP) ️ ]]>
+</title>
+<link>https://medium.com/@waqar.ah963/jdbc-crud-operations-in-java-using-drivermanager-datasource-hikaricp-%EF%B8%8F-8716f46bb590?source=rss-5a7091aecd4c------2</link>
+<guid isPermaLink="false">https://medium.com/p/8716f46bb590</guid>
+<category>
+<![CDATA[ java ]]>
+</category>
+<category>
+<![CDATA[ programming ]]>
+</category>
+<category>
+<![CDATA[ software-development ]]>
+</category>
+<category>
+<![CDATA[ jdbc-driver ]]>
+</category>
+<category>
+<![CDATA[ crud ]]>
+</category>
+<dc:creator>
+<![CDATA[ Waqar Ahmed ]]>
+</dc:creator>
+<pubDate>Sat, 31 May 2025 19:34:04 GMT</pubDate>
+<atom:updated>2025-05-31T19:34:04.688Z</atom:updated>
+<content:encoded>
+<![CDATA[ <p>When learning Java’s JDBC (Java Database Connectivity) API, mastering how to connect to a database and perform CRUD operations (Create, Read, Update, Delete) is essential. In this post, we’ll walk through both approaches: using DriverManager and DataSource (HikariCP), and provide hands-on code examples.</p><figure><img alt="" src="https://cdn-images-1.medium.com/max/1024/1*6EIHbN4xUNPx_S0xJUBb8A.png" /></figure><h3>Why JDBC?</h3><p>JDBC allows Java applications to interact with relational databases like MySQL, PostgreSQL, etc. Whether you are building enterprise applications or backend APIs, JDBC is the foundation for database connectivity in Java.</p><h3>Approach 1: Using DriverManager</h3><p>This is the classic and straightforward way of establishing a database connection in Java.</p><pre>Connection con = DriverManager.getConnection(&quot;jdbc:mysql://localhost:3306/newdb&quot;, &quot;root&quot;, &quot;Pakistan@123&quot;);</pre><p>Pros:</p><ul><li>Simple and easy to understand.</li></ul><p>Cons:</p><ul><li>No connection pooling</li><li>Less efficient for larger applications</li></ul><h3>Approach 2: Using DataSource with HikariCP</h3><p>This is a modern and recommended approach especially when performance and connection pooling are crucial.</p><p>Here’s a complete example:</p><pre>package app.vercel.waqar963;</pre><pre>import com.zaxxer.hikari.HikariDataSource;<br>import javax.sql.DataSource;<br>import java.sql.*;</pre><pre>public class App {<br> static DataSource dataSource = null;</pre><pre> public static void main(String[] args) {<br> dataSource = createDataSource();<br>// getAllUsers();<br>// addUser();<br>// updateUser();<br> deleteUser();<br> }</pre><pre> private static void deleteUser() {<br> try (Connection conn = dataSource.getConnection()) {<br> PreparedStatement deleteUser = conn.prepareStatement(&quot;DELETE FROM USERS WHERE name = ?&quot;);<br> deleteUser.setString(1, &quot;Shahnawaz&quot;);<br> deleteUser.executeUpdate();<br> getAllUsers();<br> } catch (SQLException e) {<br> e.printStackTrace();<br> }<br> }</pre><pre> private static void updateUser() {<br> try (Connection conn = dataSource.getConnection()) {<br> PreparedStatement updateUser = conn.prepareStatement(&quot;UPDATE USERS SET name = ? WHERE name = ?&quot;);<br> updateUser.setString(1, &quot;Shahnawaz&quot;);<br> updateUser.setString(2, &quot;john&quot;);<br> updateUser.executeUpdate();<br> getAllUsers();<br> } catch (SQLException e) {<br> e.printStackTrace();<br> }<br> }</pre><pre> private static void addUser() {<br> try (Connection conn = dataSource.getConnection()) {<br> PreparedStatement addUser = conn.prepareStatement(&quot;INSERT INTO USERS(name) VALUES(?)&quot;);<br> addUser.setString(1, &quot;John&quot;);<br> addUser.executeUpdate();<br> getAllUsers();<br> } catch (SQLException e) {<br> e.printStackTrace();<br> }<br> }</pre><pre> private static void getAllUsers() {<br> try (Connection conn = dataSource.getConnection()) {<br> PreparedStatement ps = conn.prepareStatement(&quot;SELECT * FROM USERS&quot;);<br> ResultSet rs = ps.executeQuery();<br> while (rs.next()) {<br> System.out.println(rs.getString(1) + &quot; &quot; + rs.getString(2));<br> }<br> } catch (SQLException e) {<br> e.printStackTrace();<br> }<br> }</pre><pre> private static DataSource createDataSource() {<br> HikariDataSource ds = new HikariDataSource();<br> ds.setJdbcUrl(&quot;jdbc:mysql://localhost:3306/newdb&quot;);<br> ds.setUsername(&quot;root&quot;);<br> ds.setPassword(&quot;Pakistan@123&quot;);<br> return ds;<br> }<br>}</pre><h3>Best Practices</h3><ul><li>Use try-with-resources to auto-close JDBC resources.</li><li>Use connection pooling (like HikariCP) in production.</li><li>Use environment variables or secrets manager to secure DB credentials.</li></ul><h3>Exercises for Practice</h3><p>Try modifying this code to:</p><ol><li>Add a column email in your USERS table and update the code accordingly.</li><li>Handle duplicate entries gracefully.</li><li>Create a CLI or simple GUI to interact with the database using CRUD operations.</li></ol><h3>Final Thoughts</h3><p>Understanding both approaches gives you flexibility in different project environments. As you move toward building scalable apps, migrating from DriverManager to DataSource with connection pooling is a must.</p><p>Happy Coding!</p><p><em>If you enjoyed this tutorial, follow me for more Java and backend development content!</em></p><img src="https://medium.com/_/stat?event=post.clientViewed&referrerSource=full_rss&postId=8716f46bb590" width="1" height="1" alt=""> ]]>
+</content:encoded>
+</item>
+<item>
+<title>
+<![CDATA[ Mastering Java Type Conversions: Primitives , Wrappers & Strings Made Easy ✨ ]]>
+</title>
+<link>https://medium.com/@waqar.ah963/mastering-java-type-conversions-primitives-wrappers-strings-made-easy-2a3c8b7a6b66?source=rss-5a7091aecd4c------2</link>
+<guid isPermaLink="false">https://medium.com/p/2a3c8b7a6b66</guid>
+<category>
+<![CDATA[ computer-science ]]>
+</category>
+<category>
+<![CDATA[ wrappersinjava ]]>
+</category>
+<category>
+<![CDATA[ java ]]>
+</category>
+<category>
+<![CDATA[ software-engineering ]]>
+</category>
+<category>
+<![CDATA[ programming ]]>
+</category>
+<dc:creator>
+<![CDATA[ Waqar Ahmed ]]>
+</dc:creator>
+<pubDate>Tue, 27 May 2025 18:06:34 GMT</pubDate>
+<atom:updated>2025-05-27T18:06:34.521Z</atom:updated>
+<content:encoded>
+<![CDATA[ <p>One of the fundamentals in Java programming is converting between <strong>primitive types</strong>, their <strong>wrapper classes</strong>, and <strong>strings</strong>. Here’s a quick cheat sheet to help you remember the essential rules and methods:</p><figure><img alt="" src="https://cdn-images-1.medium.com/max/1024/1*DIVwTiz3KkwF-g8BemLYYA.png" /></figure><figure><img alt="" src="https://cdn-images-1.medium.com/max/900/1*XENo59Vq6fYChbGNouvS8g.png" /></figure><h3>Quick Rules to Remember:</h3><ul><li><strong>Auto-boxing</strong>: Primitives automatically become Wrappers. ➡️📦</li><li><strong>Auto-unboxing</strong>: Wrappers automatically become Primitives. ⬅️🔓</li><li><strong>Parsing</strong>: Convert String to Primitive (parseInt(), etc.). ➡️🔢</li><li><strong>.toString()</strong>: Anything to String. ➡️📝</li><li><strong>.valueOf()</strong>: String to Wrapper Object. ➡️🎁</li></ul><p>Master these, and your Java code will be smoother than ever! Happy coding! 🚀</p><img src="https://medium.com/_/stat?event=post.clientViewed&referrerSource=full_rss&postId=2a3c8b7a6b66" width="1" height="1" alt=""> ]]>
+</content:encoded>
+</item>
+<item>
+<title>
+<![CDATA[ How to Create and Build a Maven Project Using the Terminal (Step-by-Step) ]]>
+</title>
+<link>https://medium.com/@waqar.ah963/how-to-create-and-build-a-maven-project-using-the-terminal-step-by-step-9e57b836e500?source=rss-5a7091aecd4c------2</link>
+<guid isPermaLink="false">https://medium.com/p/9e57b836e500</guid>
+<category>
+<![CDATA[ java ]]>
+</category>
+<category>
+<![CDATA[ maven ]]>
+</category>
+<category>
+<![CDATA[ backend-development ]]>
+</category>
+<category>
+<![CDATA[ programming ]]>
+</category>
+<category>
+<![CDATA[ tools ]]>
+</category>
+<dc:creator>
+<![CDATA[ Waqar Ahmed ]]>
+</dc:creator>
+<pubDate>Mon, 26 May 2025 17:52:27 GMT</pubDate>
+<atom:updated>2025-05-26T17:52:27.651Z</atom:updated>
+<content:encoded>
+<![CDATA[ <figure><img alt="" src="https://cdn-images-1.medium.com/max/1024/1*pQG0aFy67bX-QbX4YbK8bA.png" /></figure><p>Are you new to Java development and wondering how Maven projects are created and built from scratch? This post will walk you through <strong>the three essential terminal commands</strong> to get your Maven project up and running.</p><p>Whether you’re a beginner or just want a quick refresh, this guide is for you.</p><h3>✅ What is Maven?</h3><p><strong>Apache Maven</strong> is a build automation tool used primarily for Java projects. It helps you:</p><ul><li>Create standard project structures</li><li>Manage dependencies</li><li>Compile and package your code</li><li>Run tests</li><li>Generate documentation and reports</li></ul><p>Let’s get into how you can <strong>create your first Maven project using just the terminal.</strong></p><h3>🔧 Prerequisites</h3><p>Before you begin, make sure you have the following installed:</p><ul><li>✅ <strong>Java JDK 17 or above</strong></li><li>✅ <strong>Apache Maven</strong></li><li>✅ Terminal (Command Prompt, Git Bash, or VS Code Terminal)</li></ul><h3>🚀 Step 1: Create a New Maven Project</h3><p>Run the following command in your terminal:</p><pre>mvn archetype:generate \<br> -DgroupId=com.example.learnjava \<br> -DartifactId=MyFirstMavenApp \<br> -DarchetypeArtifactId=maven-archetype-quickstart \<br> -DinteractiveMode=false</pre><p>🔍 What this command means:</p><figure><img alt="" src="https://cdn-images-1.medium.com/max/999/1*hKVyTVnw7X98zyvltTo8lQ.png" /></figure><p>After running this command, Maven will create a project folder named <strong>MyFirstMavenApp</strong> with the following structure:</p><pre>MyFirstMavenApp/<br> ├── pom.xml<br> └── src/<br> ├── main/java/com/example/learnjava/App.java<br> └── test/java/com/example/learnjava/AppTest.java</pre><p>📁 Step 2: Navigate into the Project Directory</p><pre>cd MyFirstMavenApp</pre><p>This is now your working directory where all build commands will be executed.</p><h3>🛠 Step 3: Build the Project</h3><pre>mvn clean install</pre><h3>Here’s what happens:</h3><ul><li>clean → Clears old build files (from the target/ folder)</li><li>install → Compiles the code, runs tests, and creates a .jar file</li></ul><p>✅ After a successful build, you will find the compiled .jar file in the target/ directory.</p><pre>target/<br> ├── MyFirstMavenApp-1.0-SNAPSHOT.jar</pre><figure><img alt="" src="https://cdn-images-1.medium.com/max/1017/1*VQ4wZK5gpmsvRPokGTRGIw.png" /></figure><h3>📌 Final Thoughts</h3><p>Using the terminal to set up and build a Maven project gives you a deeper understanding of the Java development lifecycle. Once you’re comfortable with these commands, you can scale this knowledge into larger multi-module projects and integrate tools like <strong>Spring Boot</strong>, <strong>JUnit</strong>, and <strong>Docker</strong>.</p><p>If you found this helpful, give it a 👏 and share it with someone learning Java!</p><img src="https://medium.com/_/stat?event=post.clientViewed&referrerSource=full_rss&postId=9e57b836e500" width="1" height="1" alt=""> ]]>
+</content:encoded>
+</item>
+<item>
+<title>
+<![CDATA[ What Is a UUID in Java and Why Should You Use It? ]]>
+</title>
+<link>https://medium.com/@waqar.ah963/what-is-a-uuid-in-java-and-why-should-you-use-it-f077997cc200?source=rss-5a7091aecd4c------2</link>
+<guid isPermaLink="false">https://medium.com/p/f077997cc200</guid>
+<category>
+<![CDATA[ uuid ]]>
+</category>
+<category>
+<![CDATA[ software-engineering ]]>
+</category>
+<category>
+<![CDATA[ programming ]]>
+</category>
+<category>
+<![CDATA[ backend ]]>
+</category>
+<category>
+<![CDATA[ java ]]>
+</category>
+<dc:creator>
+<![CDATA[ Waqar Ahmed ]]>
+</dc:creator>
+<pubDate>Sun, 25 May 2025 10:17:11 GMT</pubDate>
+<atom:updated>2025-05-25T10:17:58.219Z</atom:updated>
+<content:encoded>
+<![CDATA[ <figure><img alt="" src="https://cdn-images-1.medium.com/max/1024/1*dnR0CDTVV8fsT7oKJTmqjg.png" /></figure><p>In today’s world of distributed systems, microservices, and large-scale databases, generating unique identifiers is a core need. Enter the <strong>UUID</strong> — short for <strong>Universally Unique Identifier</strong>.</p><p>In this post, we’ll explore:</p><ul><li>✅ What is a UUID?</li><li>🧠 How UUIDs work internally</li><li>💻 How to use UUIDs in Java</li><li>🌐 Where UUIDs are used in real-world applications</li><li>✨ Why they’re preferred in many modern systems</li></ul><h3>✅ What Is a UUID?</h3><p>A UUID is a <strong>128-bit number</strong> used to uniquely identify information without significant risk of duplication. Think of it as a digital fingerprint that’s extremely hard to reproduce.</p><p>A typical UUID looks like this:</p><pre>a0f75b26-b33d-4e68-8ccf-f7b6dc1a5f67</pre><p>Despite looking like a long mess, it has a <strong>very organized structure</strong>.</p><h3>🧠 UUID Structure: What’s Behind Those 36 Characters?</h3><p>A UUID is made up of:</p><ul><li><strong>32 hexadecimal characters</strong> (0–9 and a–f)</li><li><strong>4 hyphens</strong> to divide them into 5 groups</li></ul><p>The grouping format is:</p><pre>8 - 4 - 4 - 4 - 12</pre><p>That’s:</p><ul><li>8 characters</li><li>4 characters</li><li>4 characters</li><li>4 characters</li><li>12 characters</li></ul><p>Total = <strong>36 characters</strong></p><h3>Why 36?</h3><ul><li>32 characters from 128-bit hex</li><li>4 hyphens as separators</li></ul><h3>💻 Generating UUIDs in Java</h3><p>Java provides a built-in UUID class in the java.util package.</p><h3>🔸 Create a random UUID:</h3><pre>import java.util.UUID;<br><br>public class UUIDExample {<br> public static void main(String[] args) {<br> UUID id = UUID.randomUUID();<br> System.out.println(&quot;Generated UUID: &quot; + id);<br> }<br>}</pre><p>Each call to UUID.randomUUID() returns a new, random 128-bit value.</p><h3>✨ Why UUID Is Immutable Like String?</h3><p>UUID is <strong>immutable</strong>, meaning once created, it cannot be changed — just like String or Integer.</p><pre>UUID id = UUID.randomUUID();<br><br>// This will NOT work: id.setSomething() → because UUID has no setters!</pre><p>Any attempt to “modify” it results in the creation of a <strong>new UUID instance</strong>.</p><h3>🌐 Where Are UUIDs Used in the Real World?</h3><p>Here are some practical examples:</p><figure><img alt="" src="https://cdn-images-1.medium.com/max/1007/1*CvpfrJdrRTZJQn7XvAe4Nw.png" /></figure><h3>🧪 Bonus Tip: Creating UUID from a String</h3><p>You can also recreate a UUID from a string using UUID.fromString():</p><pre>UUID id = UUID.fromString(&quot;a0f75b26-b33d-4e68-8ccf-f7b6dc1a5f67&quot;);</pre><p>This is useful when retrieving UUIDs from databases or URLs.</p><h3>📦 UUID in Entity Classes (Java + JPA Example)</h3><pre>@Entity<br>public class User {<br><br> @Id<br> private UUID id = UUID.randomUUID();<br><br> private String name;<br><br> // Getters and Setters<br>}</pre><p>🎯 When to Use UUID Instead of Integer IDs?</p><figure><img alt="" src="https://cdn-images-1.medium.com/max/1012/1*UyYEO38IcUuk4HTrcqhNqw.png" /></figure><h3>🚀 Final Thoughts</h3><p>UUIDs are powerful tools for creating truly unique identifiers without relying on central servers. They provide safety, decentralization, and are widely adopted in modern development — from mobile apps to enterprise APIs.</p><p>They’re <strong>immutable</strong>, easy to generate, and widely supported in Java.</p><p>If you’re building anything at scale, UUIDs are your best friend.</p><img src="https://medium.com/_/stat?event=post.clientViewed&referrerSource=full_rss&postId=f077997cc200" width="1" height="1" alt=""> ]]>
+</content:encoded>
+</item>
+<item>
+<title>
+<![CDATA[ How to Choose the Right Data Structure in Java: A Complete Questionnaire for Developers ]]>
+</title>
+<link>https://medium.com/@waqar.ah963/how-to-choose-the-right-data-structure-in-java-a-complete-questionnaire-for-developers-fdaf73fd551a?source=rss-5a7091aecd4c------2</link>
+<guid isPermaLink="false">https://medium.com/p/fdaf73fd551a</guid>
+<category>
+<![CDATA[ stacks-queues ]]>
+</category>
+<category>
+<![CDATA[ javaone ]]>
+</category>
+<category>
+<![CDATA[ java ]]>
+</category>
+<category>
+<![CDATA[ data-structures ]]>
+</category>
+<category>
+<![CDATA[ arraylist-vs-linkedlist ]]>
+</category>
+<dc:creator>
+<![CDATA[ Waqar Ahmed ]]>
+</dc:creator>
+<pubDate>Tue, 20 May 2025 06:52:58 GMT</pubDate>
+<atom:updated>2025-05-25T16:27:46.708Z</atom:updated>
+<content:encoded>
+<![CDATA[ <p>As developers, one of the most critical design decisions we make is <strong>choosing the right data structure</strong>. A poor choice can lead to slow performance, wasted memory, and unscalable code.</p><figure><img alt="" src="https://cdn-images-1.medium.com/max/1024/1*d4J_S3b_w0h1KTNc6_52fw.png" /></figure><p>If you’ve ever asked yourself:</p><blockquote>“Should I use a List, Set, Map, or Queue here?”</blockquote><p>Then this post is for you.</p><p>Here’s a detailed, structured <strong>questionnaire</strong> to help you confidently select the most appropriate data structure — whether you’re building a backend API, solving coding problems, or designing a system.</p><h3>🧪 1. Understand Your Data</h3><p>Ask yourself:</p><h3>✅ Is the size fixed or dynamic?</h3><ul><li><strong>Fixed:</strong> Use Array</li><li><strong>Dynamic:</strong> Use ArrayList, LinkedList, etc.</li></ul><h3>✅ Are duplicates allowed?</h3><ul><li><strong>Yes:</strong> Consider List</li><li><strong>No:</strong> Use Set</li></ul><h3>✅ Should insertion order be preserved?</h3><ul><li>Yes: Use LinkedHashSet, LinkedHashMap, or LinkedList</li><li>No: Use HashSet, HashMap</li></ul><h3>✅ Do you need fast access by key?</h3><ul><li>Use Map (e.g., HashMap, TreeMap)</li></ul><h3>⚙️ 2. Analyze Your Operations</h3><h3>✅ Do you need fast search?</h3><ul><li>Use HashSet, HashMap</li></ul><h3>✅ Frequent insertions/removals at both ends?</h3><ul><li>Use Deque, LinkedList</li></ul><h3>✅ Constant-time random access?</h3><ul><li>Use Array, ArrayList</li></ul><h3>✅ Need to perform filtering, mapping, or streaming?</h3><ul><li>Prefer List, Set that work well with Java Streams</li></ul><h3>🔁 3. Consider Ordering and Priority</h3><h3>✅ Is sorted order required?</h3><ul><li>Use TreeSet, TreeMap, PriorityQueue</li></ul><h3>✅ Do you need custom sorting?</h3><ul><li>Use Comparator with TreeMap, TreeSet, or PriorityQueue</li></ul><h3>✅ FIFO (First-In-First-Out)?</h3><ul><li>Use Queue, LinkedList, ArrayDeque</li></ul><h3>✅ LIFO (Last-In-First-Out)?</h3><ul><li>Use Stack or Deque</li></ul><h3>🧵 4. Concurrency &amp; Thread Safety</h3><h3>✅ Multi-threaded access required?</h3><ul><li>Use ConcurrentHashMap, CopyOnWriteArrayList, etc.</li></ul><h3>✅ Is synchronization needed?</h3><ul><li>Use Collections.synchronizedList() or concurrent versions</li></ul><h3>📈 5. Performance Considerations</h3><h3>✅ What’s the expected size of the data?</h3><ul><li>For large datasets, avoid resizing structures too often</li></ul><h3>✅ Most frequent operations?</h3><ul><li>Optimize for search, insert, delete, or traversal</li></ul><h3>✅ Is space or speed more important?</h3><ul><li>You may need to trade off</li></ul><h3>🧩 6. Use-Case Specific Scenarios</h3><h3>✅ Need key-value pairing?</h3><ul><li>Use Map (HashMap, TreeMap)</li></ul><h3>✅ Hierarchical data or recursive relationships?</h3><ul><li>Consider Tree, Graph</li></ul><h3>✅ Simulations or scheduling?</h3><ul><li>Use Queue, PriorityQueue</li></ul><h3>✅ Undo operations or backtracking?</h3><ul><li>Use Stack</li></ul><figure><img alt="" src="https://cdn-images-1.medium.com/max/823/1*n_-WvOfwZlJE-KFgwdDX1Q.png" /></figure><h3>🛠️ Practice These Real-World Scenarios</h3><p>Here are a few tasks to try and apply what you’ve learned:</p><blockquote><strong>Build a to-do list manager</strong></blockquote><blockquote>Use: ArrayList, HashMap, or PriorityQueue</blockquote><blockquote><strong>Design a browser history with undo/redo</strong></blockquote><blockquote>Use: Stack and Deque</blockquote><blockquote><strong>Implement a contact manager</strong></blockquote><blockquote>Use: TreeMap for alphabetical sorting</blockquote><blockquote><strong>Create a simple task scheduler</strong></blockquote><blockquote>Use: PriorityQueue with custom comparator</blockquote><blockquote><strong>Write a word frequency counter</strong></blockquote><blockquote>Use: HashMap&lt;String, Integer&gt;</blockquote><h3>🧩 Final Thoughts</h3><p>Don’t just memorize data structures — <strong>understand the problem you’re solving</strong>. With this questionnaire, you can make more confident decisions, write cleaner code, and improve your problem-solving skills.</p><p>If this guide helped you, consider bookmarking it or sharing with a fellow developer. 💻</p><img src="https://medium.com/_/stat?event=post.clientViewed&referrerSource=full_rss&postId=fdaf73fd551a" width="1" height="1" alt=""> ]]>
+</content:encoded>
+</item>
+<item>
+<title>
+<![CDATA[ Demystifying Java Streams: A Beginner-to-Intermediate Guide with Real-Life Tasks ]]>
+</title>
+<link>https://medium.com/@waqar.ah963/demystifying-java-streams-a-beginner-to-intermediate-guide-with-real-life-tasks-eaff44c1f6b6?source=rss-5a7091aecd4c------2</link>
+<guid isPermaLink="false">https://medium.com/p/eaff44c1f6b6</guid>
+<category>
+<![CDATA[ stream ]]>
+</category>
+<category>
+<![CDATA[ java ]]>
+</category>
+<category>
+<![CDATA[ programming ]]>
+</category>
+<category>
+<![CDATA[ stacktrace ]]>
+</category>
+<category>
+<![CDATA[ software ]]>
+</category>
+<dc:creator>
+<![CDATA[ Waqar Ahmed ]]>
+</dc:creator>
+<pubDate>Sat, 17 May 2025 15:01:50 GMT</pubDate>
+<atom:updated>2025-05-17T15:01:50.980Z</atom:updated>
+<content:encoded>
+<![CDATA[ <figure><img alt="3 Stages of Streams" src="https://cdn-images-1.medium.com/max/1024/1*DBupMJU72oVcxVUCtBVYsw.png" /></figure><p>Java has come a long way from verbose loops and boilerplate collection handling. With <strong>Java 8</strong>, a functional, more expressive way to process data was introduced — <strong>Streams</strong>.</p><p>But what exactly is a Stream? Why should you care? And how can you start using it effectively in real-world backend development?</p><p>Let’s break it down.</p><p><strong>✅ What is a Stream in Java?</strong></p><p>A <strong>Stream</strong> is not a data structure — it’s a <strong>sequence of elements</strong> supporting <strong>functional-style operations</strong>.</p><blockquote><em>Think of a stream as a data pipeline: elements flow through a series of operations and are processed one by one.</em></blockquote><p>For example:</p><pre>List&lt;String&gt; names = List.of(&quot;Ali&quot;, &quot;Ahmed&quot;, &quot;Sara&quot;);<br><br>names.stream()<br> .filter(name -&gt; name.startsWith(&quot;A&quot;))<br> .map(String::toUpperCase)<br> .forEach(System.out::println);</pre><p>Output:</p><pre>ALI<br>AHMED</pre><p>🧠 Why Use Streams?</p><p>Before streams, you’d typically do this:</p><pre>List&lt;String&gt; result = new ArrayList&lt;&gt;();<br>for (String name : names) {<br> if (name.startsWith(&quot;A&quot;)) {<br> result.add(name.toUpperCase());<br> }<br>}</pre><p>✅ Streams reduce boilerplate<br>✅ Encourage readable, functional code<br>✅ Work beautifully with the new functional interfaces in java.util.function</p><p>⚙️ The Stream Pipeline</p><p>Every Stream operation follows a 3-stage process:</p><h3>1. Source</h3><p>Where data comes from — e.g., a list, array, file.</p><pre>stream = list.stream();</pre><h3>2. Intermediate Operations (lazy)</h3><p>Transform the stream without consuming it.</p><figure><img alt="" src="https://cdn-images-1.medium.com/max/1024/1*_rhUa936k-aJdS8g_wXuLA.png" /></figure><p>3. <strong>Terminal Operation</strong></p><p>Consumes the stream and produces a result.</p><figure><img alt="" src="https://cdn-images-1.medium.com/max/1024/1*a1HQzlofiL8nrMePMsgcyw.png" /></figure><p>🔄 Streams Don’t Change Original Data</p><pre>List&lt;Integer&gt; nums = List.of(1, 2, 3);<br><br>List&lt;Integer&gt; squared = nums.stream()<br> .map(n -&gt; n * n)<br> .toList();<br><br>System.out.println(nums); // [1, 2, 3]<br>System.out.println(squared); // [1, 4, 9]</pre><p>Streams are <strong>immutable</strong> — perfect for safe, multi-threaded environments.</p><p>🔍 Practical Use Case: User Emails by Role</p><p>Imagine you’re building an admin panel, and you want a list of all <strong>ADMIN</strong> user emails.</p><pre>List&lt;String&gt; adminEmails = users.stream()<br> .filter(u -&gt; u.getRole().equals(&quot;ADMIN&quot;))<br> .map(User::getEmail)<br> .collect(Collectors.toList());</pre><p>Simple, powerful, and readable.</p><p>🛠 Built-in Collectors You Should Know</p><figure><img alt="" src="https://cdn-images-1.medium.com/max/1024/1*z4wRm4ATUNXYttXlF9KvJQ.png" /></figure><p>⚡ Parallel vs Sequential Streams</p><pre>list.parallelStream() // Use multiple threads<br>list.stream() // Default, sequential</pre><p>Use parallel only for <strong>large data sets</strong>, and <strong>stateless, side-effect-free logic</strong>.</p><h3>🚫 Common Mistakes with Streams</h3><ul><li>❌ Reusing a stream after terminal operation</li><li>❌ Modifying external variables inside map/forEach</li><li>❌ Using forEach instead of map + collect</li><li>❌ Mixing business logic with pipeline transformations</li></ul><h3>🧪 Daily Practice Tasks (Real-Life Scenarios)</h3><p>🔹 <strong>Task 1</strong>:<br> From a list of transactions (amount, type), filter all “CREDIT” transactions and get their total sum.</p><p>🔹 <strong>Task 2</strong>:<br> Given a list of full names, extract and collect unique last names that start with “S”.</p><p>🔹 <strong>Task 3</strong>:<br> Create a Map&lt;String, List&lt;Product&gt;&gt; grouped by category name.</p><p>🔹 <strong>Task 4</strong>:<br> Sort a list of students by grade descending, then name ascending.</p><p>🔹 <strong>Task 5</strong>:<br> From a list of blog posts, collect all titles as a comma-separated string.</p><h3>🧩 Final Thoughts</h3><p>Java Streams empower you to think <strong>declaratively</strong> — <em>what</em> to do with data, not <em>how</em>. Once you grasp streams, you’ll write code that’s not only shorter and cleaner but also safer and often faster.</p><blockquote><em>The more you </em><strong><em>practice</em></strong><em> with real use cases, the more natural streams will become.</em></blockquote><img src="https://medium.com/_/stat?event=post.clientViewed&referrerSource=full_rss&postId=eaff44c1f6b6" width="1" height="1" alt=""> ]]>
+</content:encoded>
+</item>
+</channel>
+</rss>
