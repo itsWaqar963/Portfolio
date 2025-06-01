@@ -28,14 +28,21 @@ export const fetchMediumArticles = async (): Promise<MediumArticle[]> => {
     }
     
     // Transform the RSS data to our interface
-    const articles: MediumArticle[] = data.items.map((item: any) => ({
-      title: item.title,
-      link: item.link,
-      description: item.description.replace(/<[^>]*>/g, '').substring(0, 150) + '...',
-      pubDate: item.pubDate,
-      categories: item.categories || [],
-      thumbnail: item.thumbnail || extractImageFromContent(item.content)
-    }));
+    const articles: MediumArticle[] = data.items.map((item: any) => {
+      // Clean up the description by removing HTML tags and truncating
+      const cleanDescription = item.description 
+        ? item.description.replace(/<[^>]*>/g, '').replace(/&[^;]+;/g, '').substring(0, 150).trim() + '...'
+        : item.content?.replace(/<[^>]*>/g, '').replace(/&[^;]+;/g, '').substring(0, 150).trim() + '...' || 'Read more...';
+      
+      return {
+        title: item.title,
+        link: item.link,
+        description: cleanDescription,
+        pubDate: item.pubDate,
+        categories: item.categories || [],
+        thumbnail: item.thumbnail || extractImageFromContent(item.content || item.description)
+      };
+    });
     
     return articles.slice(0, 6); // Return only the latest 6 articles
   } catch (error) {
