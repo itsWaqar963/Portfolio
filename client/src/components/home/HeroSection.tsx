@@ -1,7 +1,6 @@
 import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { trackEvent } from "@/lib/analytics";
-import TechQuoteGenerator from "@/components/shared/TechQuoteGenerator";
 
 const HeroSection = () => {
   const scrollToProjects = () => {
@@ -186,9 +185,6 @@ const HeroSection = () => {
             </div>
           </motion.div>
         </div>
-        
-        {/* Tech Quote Generator */}
-        <TechQuoteGenerator />
         
         <motion.div 
           className="absolute bottom-10 left-1/2 transform -translate-x-1/2"

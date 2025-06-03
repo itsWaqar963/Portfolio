@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useTheme } from "@/hooks/use-theme";
 import { Link } from "wouter";
+import TypewriterQuote from "@/components/shared/TypewriterQuote";
 
 interface NavLinkProps {
   href: string;
@@ -112,6 +113,11 @@ const Header = () => {
           >
             <span className="gradient-text">waqar.dev</span>
           </a>
+        </div>
+
+        {/* Typewriter Quote - Hidden on mobile for space */}
+        <div className="flex-1 mx-8 max-w-md">
+          <TypewriterQuote />
         </div>
 
         {/* Mobile Menu Toggle */}
