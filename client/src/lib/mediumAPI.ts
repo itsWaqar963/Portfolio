@@ -13,18 +13,31 @@ const MEDIUM_RSS_URL = 'https://medium.com/feed/@waqar.ah963';
 // Function to parse Medium RSS feed
 export const fetchMediumArticles = async (): Promise<MediumArticle[]> => {
   try {
-    // Use a CORS proxy to fetch the RSS feed
-    const proxyUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(MEDIUM_RSS_URL)}`;
+    // Add cache-busting parameter to ensure fresh data
+    const timestamp = Date.now();
+    const proxyUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(MEDIUM_RSS_URL)}&api_key=&count=10&_=${timestamp}`;
     
-    const response = await fetch(proxyUrl);
+    console.log('Fetching Medium articles from:', proxyUrl);
+    
+    const response = await fetch(proxyUrl, {
+      headers: {
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': '0'
+      }
+    });
+    
     if (!response.ok) {
-      throw new Error('Failed to fetch Medium articles');
+      console.error('Failed to fetch Medium articles:', response.status, response.statusText);
+      throw new Error(`Failed to fetch Medium articles: ${response.status}`);
     }
     
     const data = await response.json();
+    console.log('Medium RSS response:', data);
     
     if (data.status !== 'ok') {
-      throw new Error('Invalid RSS feed response');
+      console.error('Invalid RSS feed response:', data);
+      throw new Error(`Invalid RSS feed response: ${data.message || 'Unknown error'}`);
     }
     
     // Transform the RSS data to our interface
@@ -44,9 +57,64 @@ export const fetchMediumArticles = async (): Promise<MediumArticle[]> => {
       };
     });
     
+    console.log(`Successfully fetched ${articles.length} Medium articles`);
     return articles.slice(0, 6); // Return only the latest 6 articles
   } catch (error) {
     console.error('Error fetching Medium articles:', error);
+    
+    // Try alternative RSS proxy as fallback
+    try {
+      console.log('Trying alternative RSS proxy...');
+      const fallbackUrl = `https://cors-anywhere.herokuapp.com/${MEDIUM_RSS_URL}`;
+      const fallbackResponse = await fetch(fallbackUrl);
+      
+      if (fallbackResponse.ok) {
+        const xmlText = await fallbackResponse.text();
+        console.log('Fallback RSS XML fetched successfully');
+        return parseRSSXML(xmlText);
+      }
+    } catch (fallbackError) {
+      console.error('Fallback RSS fetch also failed:', fallbackError);
+    }
+    
+    return [];
+  }
+};
+
+// Alternative XML parser for direct RSS parsing
+const parseRSSXML = (xmlText: string): MediumArticle[] => {
+  try {
+    const parser = new DOMParser();
+    const xmlDoc = parser.parseFromString(xmlText, 'text/xml');
+    const items = xmlDoc.querySelectorAll('item');
+    
+    const articles: MediumArticle[] = Array.from(items).map(item => {
+      const title = item.querySelector('title')?.textContent || '';
+      const link = item.querySelector('link')?.textContent || '';
+      const description = item.querySelector('description')?.textContent || '';
+      const pubDate = item.querySelector('pubDate')?.textContent || '';
+      const categories = Array.from(item.querySelectorAll('category')).map(cat => cat.textContent || '');
+      
+      // Clean description
+      const cleanDescription = description
+        .replace(/<[^>]*>/g, '')
+        .replace(/&[^;]+;/g, '')
+        .substring(0, 150)
+        .trim() + '...';
+      
+      return {
+        title: title.replace(/^\s*\[CDATA\[|\]\]\s*$/g, '').trim(),
+        link,
+        description: cleanDescription,
+        pubDate,
+        categories
+      };
+    });
+    
+    console.log(`Parsed ${articles.length} articles from XML`);
+    return articles.slice(0, 6);
+  } catch (error) {
+    console.error('Error parsing RSS XML:', error);
     return [];
   }
 };

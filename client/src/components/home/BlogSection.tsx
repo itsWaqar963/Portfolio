@@ -1,17 +1,34 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import BlogCard from "@/components/shared/BlogCard";
 import { fetchMediumArticles, MediumArticle } from "@/lib/mediumAPI";
 import { trackEvent } from "@/lib/analytics";
 
 const BlogSection = () => {
-  const { data: articles, isLoading, error } = useQuery({
+  const queryClient = useQueryClient();
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  
+  const { data: articles, isLoading, error, refetch } = useQuery({
     queryKey: ['medium-articles'],
     queryFn: fetchMediumArticles,
-    staleTime: 1000 * 60 * 30, // 30 minutes
-    retry: 2
+    staleTime: 1000 * 60 * 5, // 5 minutes (reduced from 30)
+    gcTime: 1000 * 60 * 10, // 10 minutes cache (renamed from cacheTime in v5)
+    retry: 3,
+    refetchOnWindowFocus: true, // Refetch when window regains focus
+    refetchOnMount: true
   });
+
+  const handleRefresh = async () => {
+    setIsRefreshing(true);
+    trackEvent('blog', 'refresh_articles', 'Manual Refresh Medium Articles');
+    
+    // Clear cache and refetch
+    await queryClient.invalidateQueries({ queryKey: ['medium-articles'] });
+    await refetch();
+    
+    setTimeout(() => setIsRefreshing(false), 1000);
+  };
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -40,11 +57,26 @@ const BlogSection = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          <h2 className="font-heading text-3xl md:text-4xl font-bold mb-4 text-center">
-            Tech <span className="gradient-text">Insights</span>
-          </h2>
+          <div className="flex items-center justify-center mb-4">
+            <h2 className="font-heading text-3xl md:text-4xl font-bold text-center">
+              Tech <span className="gradient-text">Insights</span>
+            </h2>
+            <button
+              onClick={handleRefresh}
+              disabled={isRefreshing || isLoading}
+              className="ml-4 p-2 rounded-lg bg-card text-foreground hover:bg-primary/10 border border-primary/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              title="Refresh latest articles"
+            >
+              <i className={`fas fa-sync-alt text-sm ${isRefreshing ? 'animate-spin' : ''}`}></i>
+            </button>
+          </div>
           <p className="text-muted-foreground text-center max-w-2xl mx-auto mb-12">
             Occasional thoughts on technology, AI, and software development.
+            {articles && articles.length > 0 && (
+              <span className="block text-xs mt-2 opacity-70">
+                Last updated: {new Date().toLocaleTimeString()}
+              </span>
+            )}
           </p>
         </motion.div>
         
