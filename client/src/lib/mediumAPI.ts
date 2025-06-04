@@ -10,16 +10,12 @@ export interface MediumArticle {
 
 const MEDIUM_RSS_URL = 'https://medium.com/feed/@waqar.ah963';
 
-// Function to parse Medium RSS feed
+// Function to fetch Medium articles from our backend API
 export const fetchMediumArticles = async (): Promise<MediumArticle[]> => {
   try {
-    // Add cache-busting parameter to ensure fresh data
-    const timestamp = Date.now();
-    const proxyUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(MEDIUM_RSS_URL)}&api_key=&count=10&_=${timestamp}`;
+    console.log('Fetching Medium articles from backend API...');
     
-    console.log('Fetching Medium articles from:', proxyUrl);
-    
-    const response = await fetch(proxyUrl, {
+    const response = await fetch('/api/medium-articles', {
       headers: {
         'Cache-Control': 'no-cache, no-store, must-revalidate',
         'Pragma': 'no-cache',
@@ -33,50 +29,26 @@ export const fetchMediumArticles = async (): Promise<MediumArticle[]> => {
     }
     
     const data = await response.json();
-    console.log('Medium RSS response:', data);
+    console.log('Backend API response:', data);
     
-    if (data.status !== 'ok') {
-      console.error('Invalid RSS feed response:', data);
-      throw new Error(`Invalid RSS feed response: ${data.message || 'Unknown error'}`);
+    if (!data.success) {
+      console.error('Backend API error:', data.message);
+      throw new Error(data.message || 'Failed to fetch articles');
     }
     
-    // Transform the RSS data to our interface
-    const articles: MediumArticle[] = data.items.map((item: any) => {
-      // Clean up the description by removing HTML tags and truncating
-      const cleanDescription = item.description 
-        ? item.description.replace(/<[^>]*>/g, '').replace(/&[^;]+;/g, '').substring(0, 150).trim() + '...'
-        : item.content?.replace(/<[^>]*>/g, '').replace(/&[^;]+;/g, '').substring(0, 150).trim() + '...' || 'Read more...';
-      
-      return {
-        title: item.title,
-        link: item.link,
-        description: cleanDescription,
-        pubDate: item.pubDate,
-        categories: item.categories || [],
-        thumbnail: item.thumbnail || extractImageFromContent(item.content || item.description)
-      };
-    });
+    const articles: MediumArticle[] = data.articles.map((article: any) => ({
+      title: article.title,
+      link: article.link,
+      description: article.description,
+      pubDate: article.pubDate,
+      categories: article.categories || [],
+      thumbnail: article.thumbnail
+    }));
     
     console.log(`Successfully fetched ${articles.length} Medium articles`);
-    return articles.slice(0, 6); // Return only the latest 6 articles
+    return articles;
   } catch (error) {
     console.error('Error fetching Medium articles:', error);
-    
-    // Try alternative RSS proxy as fallback
-    try {
-      console.log('Trying alternative RSS proxy...');
-      const fallbackUrl = `https://cors-anywhere.herokuapp.com/${MEDIUM_RSS_URL}`;
-      const fallbackResponse = await fetch(fallbackUrl);
-      
-      if (fallbackResponse.ok) {
-        const xmlText = await fallbackResponse.text();
-        console.log('Fallback RSS XML fetched successfully');
-        return parseRSSXML(xmlText);
-      }
-    } catch (fallbackError) {
-      console.error('Fallback RSS fetch also failed:', fallbackError);
-    }
-    
     return [];
   }
 };

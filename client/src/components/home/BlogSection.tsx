@@ -9,11 +9,10 @@ const BlogSection = () => {
   const queryClient = useQueryClient();
   const [isRefreshing, setIsRefreshing] = useState(false);
   
-  const { data: articles, isLoading, error, refetch } = useQuery({
+  const { data: articles, isLoading, error, refetch } = useQuery<MediumArticle[]>({
     queryKey: ['medium-articles'],
     queryFn: fetchMediumArticles,
     staleTime: 1000 * 60 * 5, // 5 minutes (reduced from 30)
-    gcTime: 1000 * 60 * 10, // 10 minutes cache (renamed from cacheTime in v5)
     retry: 3,
     refetchOnWindowFocus: true, // Refetch when window regains focus
     refetchOnMount: true
