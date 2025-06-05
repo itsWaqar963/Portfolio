@@ -1,7 +1,6 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { z } from "zod";
-import { DOMParser } from '@xmldom/xmldom';
 
 // Validate contact form data
 const contactFormSchema = z.object({
@@ -63,60 +62,61 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const xmlText = await response.text();
       console.log("RSS XML fetched successfully, parsing...");
 
-      // Parse XML using DOMParser
-      const parser = new DOMParser();
-      const xmlDoc = parser.parseFromString(xmlText, 'text/xml');
+      // Simple XML parsing using string operations
+      const items = [];
+      const itemRegex = /<item>([\s\S]*?)<\/item>/g;
+      let match;
       
-      // Check for parsing errors
-      const parseError = xmlDoc.getElementsByTagName('parsererror')[0];
-      if (parseError) {
-        throw new Error('XML parsing failed');
-      }
-
-      const items = xmlDoc.getElementsByTagName('item');
-      console.log(`Found ${items.length} articles in RSS feed`);
-
-      const articles = Array.from(items).slice(0, 6).map(item => {
-        const getTextContent = (tagName: string) => {
-          const element = item.getElementsByTagName(tagName)[0];
-          return element?.textContent || element?.firstChild?.nodeValue || '';
+      while ((match = itemRegex.exec(xmlText)) !== null && items.length < 6) {
+        const itemXml = match[1];
+        
+        const getContent = (tag: string) => {
+          const cdataRegex = new RegExp(`<${tag}[^>]*><!\\[CDATA\\[(.*?)\\]\\]><\\/${tag}>`, 's');
+          const normalRegex = new RegExp(`<${tag}[^>]*>(.*?)<\\/${tag}>`, 's');
+          
+          const cdataMatch = itemXml.match(cdataRegex);
+          if (cdataMatch) return cdataMatch[1];
+          
+          const normalMatch = itemXml.match(normalRegex);
+          return normalMatch ? normalMatch[1] : '';
         };
 
-        const title = getTextContent('title').replace(/^\s*\[CDATA\[|\]\]\s*$/g, '').trim();
-        const link = getTextContent('link');
-        const description = getTextContent('description');
-        const content = getTextContent('content:encoded') || description;
-        const pubDate = getTextContent('pubDate');
+        const title = getContent('title');
+        const link = getContent('link');
+        const description = getContent('description');
+        const pubDate = getContent('pubDate');
         
         // Extract categories
-        const categoryElements = item.getElementsByTagName('category');
-        const categories = Array.from(categoryElements).map(cat => 
-          (cat.textContent || cat.firstChild?.nodeValue || '').replace(/^\s*\[CDATA\[|\]\]\s*$/g, '').trim()
-        ).filter(Boolean);
+        const categoryRegex = /<category[^>]*>([^<]*)<\/category>/g;
+        const categories = [];
+        let categoryMatch;
+        while ((categoryMatch = categoryRegex.exec(itemXml)) !== null) {
+          categories.push(categoryMatch[1].trim());
+        }
 
-        // Clean description by removing HTML and truncating
-        const cleanDescription = content
+        // Clean description
+        const cleanDescription = description
           .replace(/<[^>]*>/g, '')
           .replace(/&[^;]+;/g, ' ')
           .replace(/\s+/g, ' ')
           .trim()
           .substring(0, 200) + '...';
 
-        // Extract thumbnail from content
-        const imgMatch = content.match(/<img[^>]+src="([^">]+)"/);
+        // Extract thumbnail
+        const imgMatch = description.match(/<img[^>]+src="([^">]+)"/);
         const thumbnail = imgMatch ? imgMatch[1] : undefined;
 
-        return {
+        items.push({
           title,
           link,
           description: cleanDescription,
           pubDate,
           categories,
           thumbnail
-        };
-      });
+        });
+      }
 
-      console.log(`Successfully parsed ${articles.length} articles`);
+      console.log(`Successfully parsed ${items.length} articles`);
       
       res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
       res.setHeader('Pragma', 'no-cache');
@@ -124,7 +124,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       return res.status(200).json({ 
         success: true, 
-        articles,
+        articles: items,
         lastFetched: new Date().toISOString()
       });
 
