@@ -12,7 +12,6 @@ export default async function handler(req, res) {
   }
 
   try {
-    // Use RSS2JSON service for Vercel compatibility
     const rssUrl = encodeURIComponent('https://medium.com/feed/@waqar.ah963');
     const proxyUrl = `https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}&count=6`;
     
