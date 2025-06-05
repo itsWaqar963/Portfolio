@@ -1,12 +1,9 @@
-import { DOMParser } from '@xmldom/xmldom';
-
 export default async function handler(req, res) {
   // Set CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   
-  // Handle OPTIONS request for CORS
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
   }
@@ -32,39 +29,32 @@ export default async function handler(req, res) {
     const xmlText = await response.text();
     console.log("RSS XML fetched successfully, parsing...");
 
-    // Parse XML using DOMParser
-    const parser = new DOMParser();
-    const xmlDoc = parser.parseFromString(xmlText, 'text/xml');
-    
-    // Check for parsing errors
-    const parseError = xmlDoc.getElementsByTagName('parsererror')[0];
-    if (parseError) {
-      throw new Error('XML parsing failed');
-    }
+    // Simple regex-based XML parsing for Vercel compatibility
+    const itemMatches = xmlText.match(/<item>(.*?)<\/item>/gs) || [];
+    console.log(`Found ${itemMatches.length} articles in RSS feed`);
 
-    const items = xmlDoc.getElementsByTagName('item');
-    console.log(`Found ${items.length} articles in RSS feed`);
-
-    const articles = Array.from(items).slice(0, 6).map(item => {
-      const getTextContent = (tagName) => {
-        const element = item.getElementsByTagName(tagName)[0];
-        return element?.textContent || element?.firstChild?.nodeValue || '';
+    const articles = itemMatches.slice(0, 6).map(itemXml => {
+      const getTagContent = (tag) => {
+        const match = itemXml.match(new RegExp(`<${tag}[^>]*><!\\[CDATA\\[(.*?)\\]\\]><\\/${tag}>`, 's')) ||
+                     itemXml.match(new RegExp(`<${tag}[^>]*>(.*?)<\\/${tag}>`, 's'));
+        return match ? match[1].trim() : '';
       };
 
-      const title = getTextContent('title').replace(/^\s*\[CDATA\[|\]\]\s*$/g, '').trim();
-      const link = getTextContent('link');
-      const description = getTextContent('description');
-      const content = getTextContent('content:encoded') || description;
-      const pubDate = getTextContent('pubDate');
+      const title = getTagContent('title');
+      const link = getTagContent('link');
+      const description = getTagContent('description');
+      const pubDate = getTagContent('pubDate');
       
       // Extract categories
-      const categoryElements = item.getElementsByTagName('category');
-      const categories = Array.from(categoryElements).map(cat => 
-        (cat.textContent || cat.firstChild?.nodeValue || '').replace(/^\s*\[CDATA\[|\]\]\s*$/g, '').trim()
-      ).filter(Boolean);
+      const categoryMatches = itemXml.match(/<category[^>]*><!\\[CDATA\\[(.*?)\\]\\]><\\/category>/g) || 
+                             itemXml.match(/<category[^>]*>(.*?)<\\/category>/g) || [];
+      const categories = categoryMatches.map(cat => {
+        const match = cat.match(/>(.*?)</);
+        return match ? match[1].replace(/<!\\[CDATA\\[|\\]\\]>/g, '').trim() : '';
+      }).filter(Boolean);
 
       // Clean description by removing HTML and truncating
-      const cleanDescription = content
+      const cleanDescription = description
         .replace(/<[^>]*>/g, '')
         .replace(/&[^;]+;/g, ' ')
         .replace(/\s+/g, ' ')
@@ -72,7 +62,7 @@ export default async function handler(req, res) {
         .substring(0, 200) + '...';
 
       // Extract thumbnail from content
-      const imgMatch = content.match(/<img[^>]+src="([^">]+)"/);
+      const imgMatch = description.match(/<img[^>]+src="([^">]+)"/);
       const thumbnail = imgMatch ? imgMatch[1] : undefined;
 
       return {
@@ -87,7 +77,6 @@ export default async function handler(req, res) {
 
     console.log(`Successfully parsed ${articles.length} articles`);
     
-    // Set cache headers
     res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
     res.setHeader('Pragma', 'no-cache');
     res.setHeader('Expires', '0');
