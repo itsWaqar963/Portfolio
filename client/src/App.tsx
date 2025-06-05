@@ -8,6 +8,7 @@ import { ThemeProvider } from "@/lib/theme";
 import { useEffect } from "react";
 import { initGA } from "./lib/analytics";
 import { useAnalytics } from "./hooks/use-analytics";
+import { Analytics } from "@vercel/analytics/react";
 
 function Router() {
   // Track page views when routes change
@@ -38,6 +39,7 @@ function App() {
       <ThemeProvider defaultTheme="dark">
         <Router />
         <Toaster />
+        <Analytics />
       </ThemeProvider>
     </QueryClientProvider>
   );
