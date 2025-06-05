@@ -1,5 +1,4 @@
 export default async function handler(req, res) {
-  // Set CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -13,70 +12,47 @@ export default async function handler(req, res) {
   }
 
   try {
-    console.log("Fetching Medium RSS feed...");
+    // Use RSS2JSON service for Vercel compatibility
+    const rssUrl = encodeURIComponent('https://medium.com/feed/@waqar.ah963');
+    const proxyUrl = `https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}&count=6`;
     
-    const response = await fetch("https://medium.com/feed/@waqar.ah963", {
+    const response = await fetch(proxyUrl, {
       headers: {
-        'User-Agent': 'Mozilla/5.0 (compatible; Portfolio-RSS-Reader/1.0)',
-        'Accept': 'application/rss+xml, application/xml, text/xml'
+        'User-Agent': 'Mozilla/5.0 (compatible; Portfolio-RSS-Reader/1.0)'
       }
     });
 
     if (!response.ok) {
-      throw new Error(`RSS fetch failed: ${response.status} ${response.statusText}`);
+      throw new Error(`RSS fetch failed: ${response.status}`);
     }
 
-    const xmlText = await response.text();
-    console.log("RSS XML fetched successfully, parsing...");
+    const data = await response.json();
+    
+    if (data.status !== 'ok') {
+      throw new Error('RSS service error');
+    }
 
-    // Simple regex-based XML parsing for Vercel compatibility
-    const itemMatches = xmlText.match(/<item>(.*?)<\/item>/gs) || [];
-    console.log(`Found ${itemMatches.length} articles in RSS feed`);
-
-    const articles = itemMatches.slice(0, 6).map(itemXml => {
-      const getTagContent = (tag) => {
-        const match = itemXml.match(new RegExp(`<${tag}[^>]*><!\\[CDATA\\[(.*?)\\]\\]><\\/${tag}>`, 's')) ||
-                     itemXml.match(new RegExp(`<${tag}[^>]*>(.*?)<\\/${tag}>`, 's'));
-        return match ? match[1].trim() : '';
-      };
-
-      const title = getTagContent('title');
-      const link = getTagContent('link');
-      const description = getTagContent('description');
-      const pubDate = getTagContent('pubDate');
-      
-      // Extract categories
-      const categoryMatches = itemXml.match(/<category[^>]*><!\\[CDATA\\[(.*?)\\]\\]><\\/category>/g) || 
-                             itemXml.match(/<category[^>]*>(.*?)<\\/category>/g) || [];
-      const categories = categoryMatches.map(cat => {
-        const match = cat.match(/>(.*?)</);
-        return match ? match[1].replace(/<!\\[CDATA\\[|\\]\\]>/g, '').trim() : '';
-      }).filter(Boolean);
-
-      // Clean description by removing HTML and truncating
-      const cleanDescription = description
+    const articles = data.items.map(item => {
+      const cleanDescription = (item.description || item.content || '')
         .replace(/<[^>]*>/g, '')
         .replace(/&[^;]+;/g, ' ')
         .replace(/\s+/g, ' ')
         .trim()
         .substring(0, 200) + '...';
 
-      // Extract thumbnail from content
-      const imgMatch = description.match(/<img[^>]+src="([^">]+)"/);
-      const thumbnail = imgMatch ? imgMatch[1] : undefined;
+      const imgMatch = (item.content || item.description || '').match(/<img[^>]+src="([^">]+)"/);
+      const thumbnail = item.thumbnail || (imgMatch ? imgMatch[1] : undefined);
 
       return {
-        title,
-        link,
+        title: item.title,
+        link: item.link,
         description: cleanDescription,
-        pubDate,
-        categories,
+        pubDate: item.pubDate,
+        categories: item.categories || [],
         thumbnail
       };
     });
 
-    console.log(`Successfully parsed ${articles.length} articles`);
-    
     res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
     res.setHeader('Pragma', 'no-cache');
     res.setHeader('Expires', '0');
@@ -88,7 +64,6 @@ export default async function handler(req, res) {
     });
 
   } catch (error) {
-    console.error("Error fetching Medium articles:", error);
     return res.status(500).json({ 
       success: false, 
       message: "Failed to fetch Medium articles",
