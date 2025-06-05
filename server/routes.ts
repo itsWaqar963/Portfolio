@@ -48,75 +48,38 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       console.log("Fetching Medium RSS feed...");
       
-      const response = await fetch("https://medium.com/feed/@waqar.ah963", {
-        headers: {
-          'User-Agent': 'Mozilla/5.0 (compatible; Portfolio-RSS-Reader/1.0)',
-          'Accept': 'application/rss+xml, application/xml, text/xml'
-        }
-      });
+      const rssUrl = encodeURIComponent('https://medium.com/feed/@waqar.ah963');
+      const response = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}`);
 
       if (!response.ok) {
         throw new Error(`RSS fetch failed: ${response.status} ${response.statusText}`);
       }
 
-      const xmlText = await response.text();
-      console.log("RSS XML fetched successfully, parsing...");
-
-      // Simple XML parsing using string operations
-      const items = [];
-      const itemRegex = /<item>([\s\S]*?)<\/item>/g;
-      let match;
+      const data = await response.json();
+      console.log("RSS data fetched successfully");
       
-      while ((match = itemRegex.exec(xmlText)) !== null && items.length < 6) {
-        const itemXml = match[1];
-        
-        const getContent = (tag: string) => {
-          const cdataRegex = new RegExp(`<${tag}[^>]*><!\\[CDATA\\[(.*?)\\]\\]><\\/${tag}>`, 's');
-          const normalRegex = new RegExp(`<${tag}[^>]*>(.*?)<\\/${tag}>`, 's');
-          
-          const cdataMatch = itemXml.match(cdataRegex);
-          if (cdataMatch) return cdataMatch[1];
-          
-          const normalMatch = itemXml.match(normalRegex);
-          return normalMatch ? normalMatch[1] : '';
-        };
+      if (data.status !== 'ok') {
+        throw new Error('RSS service error');
+      }
 
-        const title = getContent('title');
-        const link = getContent('link');
-        const description = getContent('description');
-        const pubDate = getContent('pubDate');
-        
-        // Extract categories
-        const categoryRegex = /<category[^>]*>([^<]*)<\/category>/g;
-        const categories = [];
-        let categoryMatch;
-        while ((categoryMatch = categoryRegex.exec(itemXml)) !== null) {
-          categories.push(categoryMatch[1].trim());
-        }
-
-        // Clean description
-        const cleanDescription = description
+      const articles = data.items.slice(0, 6).map((item: any) => {
+        const cleanDescription = (item.description || item.content || '')
           .replace(/<[^>]*>/g, '')
           .replace(/&[^;]+;/g, ' ')
           .replace(/\s+/g, ' ')
           .trim()
           .substring(0, 200) + '...';
 
-        // Extract thumbnail
-        const imgMatch = description.match(/<img[^>]+src="([^">]+)"/);
-        const thumbnail = imgMatch ? imgMatch[1] : undefined;
-
-        items.push({
-          title,
-          link,
+        return {
+          title: item.title,
+          link: item.link,
           description: cleanDescription,
-          pubDate,
-          categories,
-          thumbnail
-        });
-      }
+          pubDate: item.pubDate,
+          categories: item.categories || []
+        };
+      });
 
-      console.log(`Successfully parsed ${items.length} articles`);
+      console.log(`Successfully parsed ${articles.length} articles`);
       
       res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
       res.setHeader('Pragma', 'no-cache');
@@ -124,7 +87,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       return res.status(200).json({ 
         success: true, 
-        articles: items,
+        articles,
         lastFetched: new Date().toISOString()
       });
 

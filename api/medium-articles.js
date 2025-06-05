@@ -12,81 +12,39 @@ export default async function handler(req, res) {
   }
 
   try {
-    const response = await fetch('https://medium.com/feed/@waqar.ah963');
+    const rssUrl = encodeURIComponent('https://medium.com/feed/@waqar.ah963');
+    const response = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}`);
 
     if (!response.ok) {
       throw new Error(`RSS fetch failed: ${response.status}`);
     }
 
-    const xmlText = await response.text();
-    const items = [];
+    const data = await response.json();
     
-    // Extract items using basic string splitting
-    const itemStart = '<item>';
-    const itemEnd = '</item>';
-    let startIndex = 0;
-    
-    while (items.length < 6) {
-      startIndex = xmlText.indexOf(itemStart, startIndex);
-      if (startIndex === -1) break;
-      
-      const endIndex = xmlText.indexOf(itemEnd, startIndex);
-      if (endIndex === -1) break;
-      
-      const itemXml = xmlText.substring(startIndex + itemStart.length, endIndex);
-      
-      // Extract title
-      const titleMatch = itemXml.match(/<title><!\[CDATA\[(.*?)\]\]><\/title>/);
-      const title = titleMatch ? titleMatch[1].trim() : '';
-      
-      // Extract link
-      const linkMatch = itemXml.match(/<link>(.*?)<\/link>/);
-      const link = linkMatch ? linkMatch[1].trim() : '';
-      
-      // Extract publication date
-      const pubDateMatch = itemXml.match(/<pubDate>(.*?)<\/pubDate>/);
-      const pubDate = pubDateMatch ? pubDateMatch[1].trim() : '';
-      
-      // Extract categories
-      const categoryMatches = itemXml.match(/<category><!\[CDATA\[(.*?)\]\]><\/category>/g) || [];
-      const categories = categoryMatches.map(cat => {
-        const match = cat.match(/<category><!\[CDATA\[(.*?)\]\]><\/category>/);
-        return match ? match[1] : '';
-      });
-      
-      // Extract content for description and thumbnail
-      const contentMatch = itemXml.match(/<content:encoded><!\[CDATA\[(.*?)\]\]><\/content:encoded>/s);
-      const content = contentMatch ? contentMatch[1] : '';
-      
-      // Clean description
-      const cleanDescription = content
+    if (data.status !== 'ok') {
+      throw new Error('RSS service error');
+    }
+
+    const articles = data.items.slice(0, 6).map(item => {
+      const cleanDescription = (item.description || item.content || '')
         .replace(/<[^>]*>/g, '')
         .replace(/&[^;]+;/g, ' ')
         .replace(/\s+/g, ' ')
         .trim()
         .substring(0, 200) + '...';
-      
-      // Extract thumbnail
-      const imgMatch = content.match(/<img[^>]+src="([^">]+)"/);
-      const thumbnail = imgMatch ? imgMatch[1] : undefined;
 
-      if (title && link) {
-        items.push({
-          title,
-          link,
-          description: cleanDescription,
-          pubDate,
-          categories,
-          thumbnail
-        });
-      }
-      
-      startIndex = endIndex + itemEnd.length;
-    }
+      return {
+        title: item.title,
+        link: item.link,
+        description: cleanDescription,
+        pubDate: item.pubDate,
+        categories: item.categories || []
+      };
+    });
 
     return res.status(200).json({ 
       success: true, 
-      articles: items,
+      articles,
       lastFetched: new Date().toISOString()
     });
 
