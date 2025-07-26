@@ -12,8 +12,15 @@ export default async function handler(req, res) {
   }
 
   try {
+    // Use RSS2JSON service for Vercel compatibility
     const rssUrl = encodeURIComponent('https://medium.com/feed/@waqar.ah963');
-    const response = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}`);
+    const proxyUrl = `https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}&count=6`;
+    
+    const response = await fetch(proxyUrl, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (compatible; Portfolio-RSS-Reader/1.0)'
+      }
+    });
 
     if (!response.ok) {
       throw new Error(`RSS fetch failed: ${response.status}`);
@@ -25,7 +32,7 @@ export default async function handler(req, res) {
       throw new Error('RSS service error');
     }
 
-    const articles = data.items.slice(0, 6).map(item => {
+    const articles = data.items.map(item => {
       const cleanDescription = (item.description || item.content || '')
         .replace(/<[^>]*>/g, '')
         .replace(/&[^;]+;/g, ' ')
@@ -33,15 +40,23 @@ export default async function handler(req, res) {
         .trim()
         .substring(0, 200) + '...';
 
+      const imgMatch = (item.content || item.description || '').match(/<img[^>]+src="([^">]+)"/);
+      const thumbnail = item.thumbnail || (imgMatch ? imgMatch[1] : undefined);
+
       return {
         title: item.title,
         link: item.link,
         description: cleanDescription,
         pubDate: item.pubDate,
-        categories: item.categories || []
+        categories: item.categories || [],
+        thumbnail
       };
     });
 
+    res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+    res.setHeader('Pragma', 'no-cache');
+    res.setHeader('Expires', '0');
+    
     return res.status(200).json({ 
       success: true, 
       articles,

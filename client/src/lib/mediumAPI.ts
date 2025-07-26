@@ -49,7 +49,6 @@ export const fetchMediumArticles = async (): Promise<MediumArticle[]> => {
     return articles;
   } catch (error) {
     console.error('Error fetching Medium articles:', error);
-    // Return empty array if API fails
     return [];
   }
 };
